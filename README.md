@@ -1,2 +1,2 @@
-# rva
-RV-Across: An Associative Processing Simulator
+# RV-Across: An Associative Processing Simulator
+
