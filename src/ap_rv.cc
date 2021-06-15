@@ -2,7 +2,7 @@
 
 APrv::APrv()
 {
-    printf("\t # RV Across #\n");
+    //printf("\t # RV Across #\n");
     this->lookup_and_init();
     this->lookup_or_init();
     this->lookup_xor_init();
@@ -47,7 +47,7 @@ void APrv::lookup_xor_init()
 
     //XOR optimized
     this->lookup_xor_opt[0]	= new pass(0,0,0,1,0,1);
-    this->lookup_xor_opt[0]	= new pass(0,0,1,0,0,1);
+    this->lookup_xor_opt[1]	= new pass(0,0,1,1,0,0);
 }
 
 void APrv::lookup_not_init()

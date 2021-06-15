@@ -17,11 +17,11 @@ class APTemplate {
         struct pass
         {
     	    pass(bool Cr, bool R, bool B, bool A, bool wCr, bool wR):Cr(Cr), R(R), B(B), A(A), wCr(wCr), wR(wR){}
-	    bool Cr:1;
+	        bool Cr:1;
             bool R:1;
-	    bool B:1;
-	    bool A:1;
-	    bool wCr:1;
+	        bool B:1;
+	        bool A:1;
+	        bool wCr:1;
     	    bool wR:1;
         };
 
@@ -56,7 +56,7 @@ class APTemplate {
             }
 
             void print_info() {
-                printf("%c\n",op);
+                //printf("%s\n", op);
                 printf("op_qt: %u\n", op_qt);
                 printf("cycles: %u\n", cycles);
                 printf("comp_count: %u\n", comp_count);
@@ -72,6 +72,7 @@ class APTemplate {
                 this->myfile << "- Comparisons: " << this->comp_count << std::endl;
                 this->myfile << "- Writings: " << this->wr_count << std::endl;
                 this->myfile << "-----------------------------" << std::endl;
+                this->myfile.close();
             }
 
         };
@@ -88,11 +89,16 @@ class APTemplate {
         template <typename T> void compare(T* A, T* B, T* R, bool* Cr, bool* Tag)
         {
             // Selecting
-            uint32_t Cr_masked;
+            uint32_t Cr_masked = 0;
             uint32_t R_k_masked = 0;
+            uint32_t B_masked   = 0;
+            uint32_t A_masked   = 0;
 
-            uint32_t B_masked   = *B & this->mask_B;
-            uint32_t A_masked   = *A & this->mask_A;
+            if(B != NULL)
+                B_masked  = *B & this->mask_B;
+
+            if(A != NULL)
+                A_masked  = *A & this->mask_A;
 
             if(Cr == NULL)
             {
@@ -114,7 +120,7 @@ class APTemplate {
             if(B_res == 0 && A_res == 0 && R_k_res == 0 && Cr_res == 0)
             {
                 *Tag = true;
-                this->info_ops_m[op_id]->match++;       
+                this->info_ops_m[op_id]->match++;
             } else {
                 this->info_ops_m[op_id]->mismatch++;       
             }
@@ -124,7 +130,6 @@ class APTemplate {
         {
             if(*Tag)
             {
-              //printf("Entrou no if - cr_k r_k: %d %d\n", cr_k, r_k);
                 if(Cr == NULL)
                 {
                     lut[pass]->wCr ? set_bit(*R, cr_k) : clear_bit(*R, cr_k);
@@ -134,7 +139,7 @@ class APTemplate {
                     lut[pass]->wCr ? *Cr = 1 : *Cr = 0;
                 }
 
-        	lut[pass]->wR  ? set_bit(*R, r_k)  : clear_bit(*R, r_k);
+        	    lut[pass]->wR  ? set_bit(*R, r_k)  : clear_bit(*R, r_k);
                 this->info_ops_m[op_id]->wr_count++;
                 this->info_ops_m[op_id]->cycle_w = true;
                 *Tag = false;
@@ -213,9 +218,11 @@ class APTemplate {
 
         void print_bit_n(uint32_t n)
         {
-            for(int i = this->word_size-1; i >= 0; i--)
+            for(int i = this->word_size-1; i >= 0; i--) {
                 this->info_ops_m[op_id]->myfile << (int) read_bit(n,i);
-	
+                //printf("%d", read_bit(n,i));
+            }
+	        //printf("\n");
             this->info_ops_m[op_id]->myfile << std::endl;
         };
 

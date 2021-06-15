@@ -1,7 +1,5 @@
 #include "aptemplate.h"
 
-
-
 APTemplate::APTemplate()
 {
     this->op_id = 0;
@@ -62,14 +60,14 @@ void APTemplate::set_key(std::map<uint32_t, pass*> lut, uint32_t pass, uint32_t 
     this->key_R  = 0;
 
     if(lut[pass]->A)
-	set_bit(this->key_A, bit_A);
+	    set_bit(this->key_A, bit_A);
 	
     if(lut[pass]->B)
-	set_bit(this->key_B, bit_B);
+	    set_bit(this->key_B, bit_B);
 
     if(lut[pass]->Cr)
-	set_bit(this->key_Cr, cr_k);
+	    set_bit(this->key_Cr, cr_k);
 
     if(lut[pass]->R)
-	set_bit(this->key_R, r_k);
+	    set_bit(this->key_R, r_k);
 }
