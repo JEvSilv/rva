@@ -1,6 +1,6 @@
 CC=g++
 PATH_SRC=src
-CFLAGS=-O3
+CFLAGS=-O3 -fopenmp
 LIBS=
 
 main: main.o ap_rv.o apt.o

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <time.h>
+#include <omp.h>
 #include "ap_rv.h"
 
 void print_mem(uint8_t *m, int len) {
@@ -14,6 +15,7 @@ void print_mem(uint8_t *m, int len) {
 
 int main(int argc, char* argv[]) {
     FILE *input;
+    double t;
 
     if (argc < 2) {
         printf("Error: missing path to input file\n");
@@ -44,7 +46,8 @@ int main(int argc, char* argv[]) {
     ap->reset();
     ap->mem_size = len;
     ap->register_op("OP");
-
+    
+    t = omp_get_wtime();
     switch(op) {
         case 1:
             ap->__and<uint8_t>(m);
@@ -67,8 +70,10 @@ int main(int argc, char* argv[]) {
         default:
             break;
     }
+    t = omp_get_wtime() - t;
 
     print_mem(m, len);
+    printf("%lf\n", t);
 
     return 0;
 }
